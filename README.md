@@ -36,7 +36,10 @@ In that third section "Apple Pay Merchant Identity"...
 it's this xxx.p12 file which you then use openssl in terminal.app on your mac ......
  
 openssl pkcs12 -in ApplePayMerchantIdentity_and_privatekey.p12 -out ApplePay.crt.pem -clcerts -nokeys  
-openssl pkcs12 -in ApplePayMerchantIdentity_and_privatekey.p12 -out ApplePay.key.pem -nocerts 
+openssl pkcs12 -in ApplePayMerchantIdentity_and_privatekey.p12 -out ApplePay.key.pem -nocerts -nodes
+
+Test by curl: 
+curl -gv --data '{"merchantIdentifier":"merchant.com.heartland.test", "initiativeContext":"zifeiyuba.com", "initiative":"web", "displayName":"Apple Pay Testbed"}' --cert /var/www/html/magento2-4/pub/ApplePayJS/applepay_includes/test.crt.pem --key /var/www/html/magento2-4/pub/ApplePayJS/applepay_includes/test.key.pem  https://apple-pay-gateway.apple.com/paymentservices/paymentSession
 
 ...to create two .pem files. Remember the password you're asked to create when you extract ApplePay.key.pem above. You'll need to add this to apple_pay_conf.php. These are the two files your webserver will use to authenticate its conversations with Apple, requesting a session etc for each ApplePay transaction your customers make. 
 

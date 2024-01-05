@@ -1,5 +1,5 @@
 <?php
-require_once ('/your/path/to/applepay_includes/apple_pay_conf.php');
+require_once ('./applepay_includes/apple_pay_conf.php');
 ?>
 <!DOCTYPE html>
 <html lang="en-GB">
@@ -36,17 +36,15 @@ require_once ('/your/path/to/applepay_includes/apple_pay_conf.php');
 var debug = <?=DEBUG?>;
 
 if (window.ApplePaySession) {
-   var merchantIdentifier = '<?=PRODUCTION_MERCHANTIDENTIFIER?>';
-   var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
-   promise.then(function (canMakePayments) {
-	  if (canMakePayments) {
-		 document.getElementById("applePay").style.display = "block";
-		 logit('hi, I can do ApplePay');
-	  } else {   
-		 document.getElementById("got_notactive").style.display = "block";
-		 logit('ApplePay is possible on this browser, but not currently activated.');
-	  }
-	}); 
+	var merchantIdentifier = '<?=PRODUCTION_MERCHANTIDENTIFIER?>';
+
+	if (ApplePaySession.canMakePayments()) {
+		document.getElementById("applePay").style.display = "block";
+		logit('hi, I can do ApplePay');
+	} else {   
+		document.getElementById("got_notactive").style.display = "block";
+		logit('ApplePay is possible on this browser, but not currently activated.');
+	}
 } else {
 	logit('ApplePay is not available on this browser');
 	document.getElementById("notgot").style.display = "block";
